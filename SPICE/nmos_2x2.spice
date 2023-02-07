@@ -1,0 +1,33 @@
+* NGSPICE file created from nmos_2x2.ext - technology: sky130A
+
+.subckt nmos_2x2
+X0 S.t5 G D S.t2 sky130_fd_pr__nfet_g5v0d10v5 ad=0p pd=0u as=5.325e+12p ps=3.752e+07u w=4.38e+06u l=500000u
+X1 S.t4 G D S.t2 sky130_fd_pr__nfet_g5v0d10v5 ad=0p pd=0u as=0p ps=0u w=4.38e+06u l=500000u
+X2 D G S.t3 S.t2 sky130_fd_pr__nfet_g5v0d10v5 ad=0p pd=0u as=0p ps=0u w=4.38e+06u l=500000u
+X3 D G S.t1 S.t0 sky130_fd_pr__nfet_g5v0d10v5 ad=0p pd=0u as=0p ps=0u w=4.38e+06u l=500000u
+R0 S.t2 S.t5 3.825
+R1 S.t0 S.t1 3.777
+R2 S.t2 S.t4 3.777
+R3 S.n0 S.t3 3.773
+R4 S S.t2 0.171
+R5 S S.t0 0.169
+R6 S.t0 S.n0 0.053
+C0 G D 10.56fF
+C1 DNW S 139.53fF
+C2 DNW D 56.36fF
+C3 G DNW 0.63fF
+C4 D S 28.14fF
+C5 G S 26.43fF
+C6 D VSUBS -5.18fF
+C7 G VSUBS -0.06fF
+C8 S VSUBS 31.19fF $ **FLOATING
+C9 DNW VSUBS 1712.25fF $ **FLOATING
+C10 S.t0 VSUBS 152.51fF
+C11 S.t2 VSUBS 18.82fF
+C12 S.t4 VSUBS 0.02fF
+C13 S.t5 VSUBS 0.03fF
+C14 S.t3 VSUBS 0.02fF
+C15 S.n0 VSUBS 1.03fF $ **FLOATING
+C16 S.t1 VSUBS 0.07fF
+.ends
+
