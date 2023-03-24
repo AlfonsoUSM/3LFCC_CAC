@@ -1,0 +1,95 @@
+
+**.subckt core_nofilter_constantload
+V2 VSS GND 0
+.save i(v2)
+V3 VH GND {VH}
+.save i(v3)
+I0 VOUT_CORE VSS 0.15
+XC1 V_CFTOP V_CFBOT sky130_fd_pr__cap_mim_m3_2 W=30 L=30 MF=1978 m=1978
+XC2 V_CFTOP V_CFBOT sky130_fd_pr__cap_mim_m3_1 W=30 L=30 MF=1978 m=1978
+X2v D1 D2 D3 D4 V_CFTOP V_CFBOT VOUT_CORE VH VSS power_stage
+V6 D3 VSS PULSE(0 1.8 520.0n 1n 1n 312.0n 1000.0n)
+.save i(v6)
+V5 D2 VSS PULSE(0 1.8 500.0n 1n 1n 352.0n 1000.0n)
+.save i(v5)
+V7 D4 VSS PULSE(0 1.8 20.0n 1n 1n 312.0n 1000.0n)
+.save i(v7)
+V1 D1 VSS PULSE(0 1.8 0n 1n 1n 352.0n 1000.0n)
+.save i(v1)
+C3 V_CFTOP V_CFBOT 680n m=1
+**** begin user architecture code
+
+
+.param VIN = 5
+.param VH = 5
+.option scale = 1e-6
+.param muln = 2520
+.param mulp = 4512
+*.option temp=70
+.ic v(V_CFTOP) = VH/2
+.ic v(vout_core)=3
+.ic v(V_CFBOT) = 0
+*.probe vd(MP2:G:S)
+.save v(D1) v(D2) v(D4) v(D3) v(VOUT_CORE) v(vh) i(v3) v(v_cftop,v_cfbot) v(D1,v_cftop) v(D2,vout_core) v(D3,v_cfbot) v(D4,VSS) v(D3,v_cfbot) v(D1_s) v(D2_s)	v(D3_s) v(D4_s)
+*.save @m.xm4.msky130_fd_pr__nfet_g5v0d10v5[vds]
+*.param mc_mm_switch=0
+
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice TT
+
+.options savecurrents
+
+
+.control
+
+save i(v3) v(vout_core)
+tran 1n 30u
+wrdata /foss/designs/personal/sims/core_nofilter_constantload.txt v(vout_core) i(v3)
+set appendwrite
+
+*Relacion Pulso P y N para acondicionar tiempos muertos (reducir peaks)
+
+
+
+
+
+
+
+**Problema actual, eficiencia no se logra calcular debido a que no transicionan bien todo los
+*+ estados, (Cuando el Flycap esta flotante no esta consumiendo energia, es decir la carga no esta conectada a
+*+ la fuente de entrada...)
+** Si bien D1- D4 y D2- D3 estan con sus respectivos tiempos muertos (reducion de peaks), falta
+*+ sincronizar bien D1 con D2 para lograr la conexion correcta para que la carga se conecte a la fuente en estado
+*+ de flycap flotante.
+
+.endc
+
+
+**** end user architecture code
+**.ends
+
+.subckt power_stage s1 s2 s3 s4 fc1 fc2 out VP VN
+*.iopin VP
+*.ipin s1
+*.ipin s2
+*.iopin out
+*.ipin s3
+*.ipin s4
+*.iopin VN
+*.iopin fc1
+*.iopin fc2
+XM3 out s2 fc1 fc1 sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=4.38 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult='mulp' m='mulp'
+XM4 fc1 s1 VP VP sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=4.38 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult='mulp' m='mulp'
+XM1 out s3 fc2 fc2 sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=4.38 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult='muln' m='muln'
+XM2 fc2 s4 VN VN sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=4.38 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult='muln' m='muln'
+.ends
+
+.GLOBAL GND
+.end

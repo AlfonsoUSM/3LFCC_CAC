@@ -10,7 +10,7 @@
 ####### PMOS #######
 
 set size 5.5
-set n 24
+set n 36
 set base 0
 set offset_lt 15.25
 set offset -1.13
@@ -27,7 +27,9 @@ set m2_off_y 26.920
 set m_track 34
 set m_track_width 10
 
-load mag_files/pmos_waffle_corners.mag
+load mag_files/waffle_cells/pmos_waffle_corners.mag
+save mag_files/pmos_waffle_36x36
+load mag_files/pmos_waffle_36x36
 ### corners ###
 
 
@@ -64,9 +66,9 @@ for {set i 0} {$i < $n - 2} {incr i} { #ancho
     for {set j 0} {$j < $n - 2} {incr j} { #alto
 		box [expr {$base + $size*$i + $offset}]um [expr {$base + $size*$j + $offset}]um [expr {$base + $size*($i+1) + $offset}]um [expr {$base + $size*($j+1) + $offset}]um
 		if {[expr {($i + $j)%2}]} {
-			getcell mag_files/pmos_drain_in.mag
+			getcell mag_files/waffle_cells/pmos_drain_in.mag
 		} else {
-			getcell mag_files/pmos_source_in.mag
+			getcell mag_files/waffle_cells/pmos_source_in.mag
 		}
 	}
 }
@@ -79,35 +81,35 @@ for {set i 0} {$i < ($n - 2)} {incr i} { #alto
 	if {[expr {($i)%2}]} {
 			### left ###
 			box [expr {$base - $offset_lt}]um [expr {$base + $size*$i + $offset}]um [expr {$base + $size - $offset_lt}]um [expr {$base + $size*($i+1) + $offset}]um
-			getcell mag_files/pmos_source_frame_lt.mag
+			getcell mag_files/waffle_cells/pmos_source_frame_lt.mag
 			### right ###
 			box [expr {$base + $offset + $size*($n - 2)}]um [expr {$base + $size*$i + $offset}]um [expr {$base + $size*($n-1) + $offset}]um [expr {$base + $size*($i+1) + $offset}]um
-			getcell mag_files/pmos_drain_frame_rb.mag
+			getcell mag_files/waffle_cells/pmos_drain_frame_rb.mag
 			### bottom ###
 			box [expr {$base + $size*$i + $offset}]um [expr {$base + $offset_b}]um [expr {$base + $size*($i+1) + $offset}]um [expr {$base + $size + $offset_b}]um
-			getcell mag_files/pmos_source_frame_rb.mag
+			getcell mag_files/waffle_cells/pmos_source_frame_rb.mag
 			upsidedown
 			clockwise 90
 			### top ###
 			box [expr {$base + $size*$i + $offset}]um [expr {$base + $size*($n -2) +$offset}]um [expr {$base + $size*($i+1) + $offset}]um [expr {$base + $size*($n-1)}]um
-			getcell mag_files/pmos_drain_frame_lt.mag
+			getcell mag_files/waffle_cells/pmos_drain_frame_lt.mag
 			sideways
 			clockwise -90
 		} else {
 			### left ###
 			box [expr {$base - $offset_lt}]um [expr {$base + $size*$i + $offset}]um [expr {$base + $size - $offset_lt}]um [expr {$base + $size*($i+1) + $offset}]um
-			getcell mag_files/pmos_drain_frame_lt.mag
+			getcell mag_files/waffle_cells/pmos_drain_frame_lt.mag
 			### right ###
 			box [expr {$base + $offset + $size*($n - 2)}]um [expr {$base + $size*$i + $offset}]um [expr {$base + $size*($n -1 ) + $offset}]um [expr {$base + $size*($i+1) + $offset}]um
-			getcell mag_files/pmos_source_frame_rb.mag
+			getcell mag_files/waffle_cells/pmos_source_frame_rb.mag
 			### bottom ###
 			box [expr {$base + $size*$i + $offset}]um [expr {$base + $offset_b}]um [expr {$base + $size*($i+1)} + $offset]um [expr {$base + $size + $offset_b}]um
-			getcell mag_files/pmos_drain_frame_rb.mag
+			getcell mag_files/waffle_cells/pmos_drain_frame_rb.mag
 			upsidedown
 			clockwise 90		
 			### top ###
 			box [expr {$base + $size*$i + $offset}]um [expr {$base + $size*($n -2) +$offset}]um [expr {$base + $size*($i+1) + $offset }]um [expr {$base + $size*($n-1)}]um
-			getcell mag_files/pmos_source_frame_lt.mag
+			getcell mag_files/waffle_cells/pmos_source_frame_lt.mag
 			sideways
 			clockwise -90
 		}
@@ -190,7 +192,26 @@ box [expr {($n-1)*$size + $guard_offset_x - 1}]um [expr {-$guard_offset_y - 4}]u
 paint metal3
 paint metal4 
 paint metal5
-
-flatten pmos_flat_24x24
-load pmos_flat_24x24
-save pmos_flat_24x24
+save
+flatten pmos_flat_36x36
+load pmos_flat_36x36
+box [expr {-$size + 0.25}]um [expr {-$size - 0.25}]um [expr {-$size + 0.25}]um [expr {-$size - 0.25}]um
+label G
+box [expr {$size*$n + 10}]um [expr {-$size - 0.25}]um [expr {$size*$n + 10}]um [expr {-$size - 0.25}]um
+label S
+box [expr {-$size - 12}]um [expr {$size*($n+1)}]um [expr {-$size - 12}]um [expr {$size*($n+1)}]um
+label D
+box [expr {-$size -18}]um [expr {-$size - 17}]um [expr {-$size -18}]um [expr {-$size - 17}]um
+label PW
+save mag_files/POSTLAYOUT/pmos_flat_36x36
+extract all
+ext2sim labels on
+ext2sim
+extresist tolerance 10
+extresist simplify on
+extresist
+ext2spice lvs
+ext2spice cthresh 0
+ext2spice extresist on
+ext2spice 
+exit

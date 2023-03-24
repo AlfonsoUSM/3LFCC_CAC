@@ -10,7 +10,7 @@
 ####### NMOS #######
 
 set size 5.5
-set n 24
+set n 1
 set base 0
 set offset_lt 15.25
 set offset -1.13
@@ -39,6 +39,8 @@ set totop2_off [expr {$totop+170}]
 
 ### corners ###
 load mag_files/nmos_waffle_corners.mag
+save mag_files/nmos_waffle_24x24
+load mag_files/nmos_waffle_24x24
 
 zoom 8
 
@@ -73,9 +75,9 @@ for {set i 0} {$i < $n - 2} {incr i} { #ancho
     for {set j 0} {$j < $n - 2} {incr j} { #alto
 		box [expr {$base + $size*$i + $offset}]um [expr {$base + $size*$j + $offset}]um [expr {$base + $size*($i+1) + $offset}]um [expr {$base + $size*($j+1) + $offset}]um
 		if {[expr {($i + $j)%2}]} {
-			getcell mag_files/nmos_drain_in.mag
+			getcell nmos_drain_in.mag
 		} else {
-			getcell mag_files/nmos_source_in.mag
+			getcell nmos_source_in.mag
 		}
 	}
 }
@@ -88,35 +90,35 @@ for {set i 0} {$i < ($n - 2)} {incr i} { #alto
 	if {[expr {($i)%2}]} {
 			### left ###
 			box [expr {$base - $offset_lt}]um [expr {$base + $size*$i + $offset}]um [expr {$base + $size - $offset_lt}]um [expr {$base + $size*($i+1) + $offset}]um
-			getcell mag_files/nmos_source_frame_lt.mag
+			getcell nmos_source_frame_lt.mag
 			### right ###
 			box [expr {$base + $offset + $size*($n - 2)}]um [expr {$base + $size*$i + $offset}]um [expr {$base + $size*($n-1) + $offset}]um [expr {$base + $size*($i+1) + $offset}]um
-			getcell mag_files/nmos_drain_frame_rb.mag
+			getcell nmos_drain_frame_rb.mag
 			### bottom ###
 			box [expr {$base + $size*$i + $offset}]um [expr {$base + $offset_b}]um [expr {$base + $size*($i+1) + $offset}]um [expr {$base + $size + $offset_b}]um
-			getcell mag_files/nmos_source_frame_rb.mag
+			getcell nmos_source_frame_rb.mag
 			upsidedown
 			clockwise 90
 			### top ###
 			box [expr {$base + $size*$i + $offset}]um [expr {$base + $size*($n -2) +$offset}]um [expr {$base + $size*($i+1) + $offset}]um [expr {$base + $size*($n-1)}]um
-			getcell mag_files/nmos_drain_frame_lt.mag
+			getcell nmos_drain_frame_lt.mag
 			sideways
 			clockwise -90
 		} else {
 			### left ###
 			box [expr {$base - $offset_lt}]um [expr {$base + $size*$i + $offset}]um [expr {$base + $size - $offset_lt}]um [expr {$base + $size*($i+1) + $offset}]um
-			getcell mag_files/nmos_drain_frame_lt.mag
+			getcell nmos_drain_frame_lt.mag
 			### right ###
 			box [expr {$base + $offset + $size*($n - 2)}]um [expr {$base + $size*$i + $offset}]um [expr {$base + $size*($n-1) + $offset}]um [expr {$base + $size*($i+1) + $offset}]um
-			getcell mag_files/nmos_source_frame_rb.mag
+			getcell nmos_source_frame_rb.mag
 			### bottom ###
 			box [expr {$base + $size*$i + $offset}]um [expr {$base + $offset_b}]um [expr {$base + $size*($i+1)} + $offset]um [expr {$base + $size + $offset_b}]um
-			getcell mag_files/nmos_drain_frame_rb.mag
+			getcell nmos_drain_frame_rb.mag
 			upsidedown
 			clockwise 90		
 			### top ###
 			box [expr {$base + $size*$i + $offset}]um [expr {$base + $size*($n -2) +$offset}]um [expr {$base + $size*($i+1) + $offset }]um [expr {$base + $size*($n-1)}]um
-			getcell mag_files/nmos_source_frame_lt.mag
+			getcell nmos_source_frame_lt.mag
 			sideways
 			clockwise -90
 		}
@@ -214,7 +216,7 @@ paint metal5
 box [expr {-$guard_offset_x + $dnwell_offset - $guard_width}]um [expr {-$guard_offset_y + $dnwell_offset - $guard_width}]um [expr {($n-1)*$size + $guard_offset_x - 5  + $guard_width - $dnwell_offset}]um [expr {($n-1)*$size + $top_offset - $dnwell_offset + $guard_width}]um
 paint dnwell
 
-save mag_files/nmos_waffle
+save
 
 # topleft corner,  botleft corner, topright corner, botright corner
 # -140 $totop 0 $totop_off -140 $totopsize_off 0 $totopsize -1100 $totop -960 $totop_off -1100 $totopsize_off -960 $totopsize || topleft
@@ -224,7 +226,23 @@ save mag_files/nmos_waffle
 property MASKHINTS_HVI "-140 $totop 0 $totop_off -140 -140 0 0 $totop -140 $totop_off 0 $totop $totop $totop_off $totop_off"
 property MASKHINTS_HVNTM "-1007 -1107 -21 -1079 -1007 -1079 -979 -121 $toright_hvn $totop_hvn $toright_hvn_off $totop_hvn_off $toright_hvn_bot $totop_hvn_bot $toright_hvn_off $totop_hvn -170 $totop2 -30 $totop2_off"
 save
-flatten nmos_waffle_flat
-load nmos_waffle_flat
-box [expr {-$guard_offset_x + $dnwell_offset - $guard_width}]um [expr {-$guard_offset_y + $dnwell_offset - $guard_width}]um [expr {($n-1)*$size + $guard_offset_x - 5  + $guard_width - $dnwell_offset}]um [expr {($n-1)*$size + $top_offset - $dnwell_offset + $guard_width}]um
-save nmos_waffle_flat
+flatten nmos_flat_24x24
+load nmos_flat_24x24
+box [expr {-$size + 0.25}]um [expr {-$size - 0.25}]um [expr {-$size + 0.25}]um [expr {-$size - 0.25}]um
+label G
+box [expr {$size*$n + 10}]um [expr {-$size - 0.25}]um [expr {$size*$n + 10}]um [expr {-$size - 0.25}]um
+label S
+box [expr {-$size - 12}]um [expr {$size*($n+1)}]um [expr {-$size - 12}]um [expr {$size*($n+1)}]um
+label D
+box [expr {-$size -18}]um [expr {-$size - 17}]um [expr {-$size -18}]um [expr {-$size - 17}]um
+label DNW
+save
+extract all
+ext2sim labels on
+ext2sim
+extresist tolerance 10
+extresist
+ext2spice lvs
+ext2spice cthresh 0
+ext2spice extresist on
+ext2spice SPICE_files/nmos_flat_24x24.spice

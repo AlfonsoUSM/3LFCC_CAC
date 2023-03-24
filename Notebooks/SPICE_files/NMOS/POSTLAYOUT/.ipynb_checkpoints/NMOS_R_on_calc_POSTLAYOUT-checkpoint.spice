@@ -1,0 +1,36 @@
+* NGSPICE file - technology: sky130A
+
+**.subckt postlayout_sim_
+.include nmos_flat_36x36.spice
+
+XU1 G S D DNW VSUBS nmos_flat_36x36
+
+VGS G GND {VGS}
+VSS S GND 0
+VDS D S 5
+VX VSUBS GND 0
+VY DNW D 0
+
+**** begin user architecture code
+
+.param VGS = 5
+.option temp=70
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+.control
+save i(VDS)
+dc VDS 0 3 0.0001
+wrdata NMOS_R_on_calc_POSTLAYOUT_36x36.txt i(VDS)
+set appendwrite
+
+
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end
+.control
+quit
+.endc
