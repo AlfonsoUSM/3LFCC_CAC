@@ -1,5 +1,5 @@
 **.subckt postlayout_cap_pmos
-.include pmos_flat_6x6.spice
+.include pmos_flat_12x12.spice
 VG VP GND PULSE(0 {VGS} 20n 0 0 100n 120n)
 .save i(vg)
 VSS VSS GND 0
@@ -8,7 +8,7 @@ R1 G VP 100 m=1
 VG1 VP2 GND {VGS}
 .save i(vg1)
 VX PW GND 0
-XU1 G VP2 VSS PW pmos_flat_6x6
+XU1 G VP2 VSS PW pmos_flat_12x12
 **** begin user architecture code
 
 

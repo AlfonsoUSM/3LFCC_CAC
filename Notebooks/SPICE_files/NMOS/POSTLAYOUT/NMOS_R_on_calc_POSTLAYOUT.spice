@@ -1,9 +1,9 @@
 * NGSPICE file - technology: sky130A
 
 **.subckt postlayout_sim_
-.include nmos_flat_4x4.spice
+.include nmos_flat_8x8.spice
 
-XU1 G S D DNW VSUBS nmos_flat_4x4
+XU1 G S D DNW VSUBS nmos_flat_8x8
 
 VGS G GND {VGS}
 VSS S GND 0
@@ -24,7 +24,7 @@ alterparam VGS=$volt
 reset
 save i(VDS)
 dc VDS 0 3 0.0001
-wrdata SPICE_files/NMOS/POSTLAYOUT/NMOS_R_on_calc_POSTLAYOUT_4x4.txt i(VDS)
+wrdata SPICE_files/NMOS/POSTLAYOUT/NMOS_R_on_calc_POSTLAYOUT.txt i(VDS)
 set appendwrite
 end
 

@@ -10,7 +10,7 @@
 ####### PMOS #######
 
 set size 5.5
-set n 36
+set n 12
 set base 0
 set offset_lt 15.25
 set offset -1.13
@@ -28,8 +28,8 @@ set m_track 34
 set m_track_width 10
 
 load mag_files/waffle_cells/pmos_waffle_corners.mag
-save mag_files/pmos_waffle_36x36
-load mag_files/pmos_waffle_36x36
+save mag_files/pmos_waffle_12x12
+load mag_files/pmos_waffle_12x12
 ### corners ###
 
 
@@ -193,8 +193,8 @@ paint metal3
 paint metal4 
 paint metal5
 save
-flatten pmos_flat_36x36
-load pmos_flat_36x36
+flatten pmos_flat_12x12
+load pmos_flat_12x12
 box [expr {-$size + 0.25}]um [expr {-$size - 0.25}]um [expr {-$size + 0.25}]um [expr {-$size - 0.25}]um
 label G
 box [expr {$size*$n + 10}]um [expr {-$size - 0.25}]um [expr {$size*$n + 10}]um [expr {-$size - 0.25}]um
@@ -203,7 +203,7 @@ box [expr {-$size - 12}]um [expr {$size*($n+1)}]um [expr {-$size - 12}]um [expr 
 label D
 box [expr {-$size -18}]um [expr {-$size - 17}]um [expr {-$size -18}]um [expr {-$size - 17}]um
 label PW
-save mag_files/POSTLAYOUT/pmos_flat_36x36
+save mag_files/POSTLAYOUT/pmos_flat_12x12
 extract all
 ext2sim labels on
 ext2sim

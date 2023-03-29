@@ -1,7 +1,7 @@
 **.subckt prelayout_cap
 XM1 VP2 G VSS VSS sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=4.38 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
 + pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
-+ sa=0 sb=0 sd=0 mult=2520 m=2520
++ sa=0 sb=0 sd=0 mult=112 m=112
 VG VP GND PULSE(0 {VGS} 20n 0 0 100n 120n)
 .save i(vg)
 VSS VSS GND 0

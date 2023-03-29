@@ -9,7 +9,7 @@ VDD VDD GND 5
 
 
 .param VGS = -5
-.param mul = 4512
+.param mul = 264
 .option temp=70
 .lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
 

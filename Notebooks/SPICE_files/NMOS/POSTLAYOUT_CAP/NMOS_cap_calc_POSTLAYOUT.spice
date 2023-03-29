@@ -1,6 +1,6 @@
 **.subckt postlayout_cap
-.include nmos_flat_4x4.spice
-XU1 G VSS VP2 DNW VSUBS nmos_flat_4x4
+.include nmos_flat_8x8.spice
+XU1 G VSS VP2 DNW VSUBS nmos_flat_8x8
 VG VP GND PULSE(0 {VGS} 20n 0 0 100n 120n)
 .save i(vg)
 VSS VSS GND 0

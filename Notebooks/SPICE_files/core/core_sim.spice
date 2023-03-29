@@ -4,17 +4,17 @@ V2 VSS GND 0
 .save i(v2)
 V3 VH GND {VH}
 .save i(v3)
-I0 VOUT_CORE VSS 0.15
+I0 VOUT_CORE VSS 0.001
 XC1 V_CFTOP V_CFBOT sky130_fd_pr__cap_mim_m3_2 W=30 L=30 MF=1978 m=1978
 XC2 V_CFTOP V_CFBOT sky130_fd_pr__cap_mim_m3_1 W=30 L=30 MF=1978 m=1978
 X2v D1 D2 D3 D4 V_CFTOP V_CFBOT VOUT_CORE VH VSS power_stage
-V6 D3 VSS PULSE(0 5 520.0n 1n 1n 312.0n 1000.0n)
+V6 D3 VSS PULSE(0 5 520.0n 1n 1n 300.0n 1000.0n)
 .save i(v6)
-V5 D2 VSS PULSE(0 5 500.0n 1n 1n 352.0n 1000.0n)
+V5 D2 VSS PULSE(0 5 500.0n 1n 1n 340.0n 1000.0n)
 .save i(v5)
-V7 D4 VSS PULSE(0 5 20.0n 1n 1n 312.0n 1000.0n)
+V7 D4 VSS PULSE(0 5 20.0n 1n 1n 300.0n 1000.0n)
 .save i(v7)
-V1 D1 VSS PULSE(0 5 0n 1n 1n 352.0n 1000.0n)
+V1 D1 VSS PULSE(0 5 0n 1n 1n 340.0n 1000.0n)
 .save i(v1)
 C3 V_CFTOP V_CFBOT 680n m=1
 **** begin user architecture code
@@ -23,8 +23,8 @@ C3 V_CFTOP V_CFBOT 680n m=1
 .param VIN = 5
 .param VH = 5
 .option scale = 1e-6
-.param muln = 2520
-.param mulp = 4512
+.param muln = 24
+.param mulp = 60
 *.option temp=70
 .ic v(V_CFTOP) = VH/2
 .ic v(vout_core)=3
@@ -42,7 +42,7 @@ C3 V_CFTOP V_CFBOT 680n m=1
 .control
 
 save i(v3) v(vout_core)
-tran 1n 20u
+tran 1n 30u
 wrdata SPICE_files/core/core_nofilter_constantload.txt v(vout_core) i(v3)
 set appendwrite
 

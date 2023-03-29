@@ -11,7 +11,7 @@ VDS VDS VSS 1
 
 
 .param VGS = 5
-.param mul = 2520
+.param mul = 112
 .option temp=70
 .lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
 

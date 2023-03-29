@@ -27,12 +27,12 @@ tech load /foss/pdks/sky130A/libs.tech/magic/sky130A.tech
 set guard_width 48
 set guard_offset_x 11.25
 set size 5.5
-set n_nmos 36
-set n_pmos 48
+set n_nmos 4
+set n_pmos 6
 
 # NMOS 1
 box 0um 0 10um 10um
-getcell mag_files/nmos_waffle_36x36
+getcell mag_files/nmos_waffle_4x4
 #box 30um 59.25um 53um 68um 
 #paint metal2
 box 30um 57um 49.62um 60um
@@ -42,7 +42,7 @@ paint metal2
 
 # NMOS 2
 box 0um [expr {($n_nmos-1)*$size + 2*($guard_offset_x + $guard_width) - 1}]um 10um [expr {($n_nmos-1)*$size + 2*($guard_offset_x + $guard_width) + 5}]um 
-getcell mag_files/nmos_waffle_36x36
+getcell mag_files/nmos_waffle_4x4
 rotate
 box 30um [expr {(($n_nmos-1)*$size + 2*($guard_offset_x + $guard_width) - 5)*2 - 48}]um 57.4um [expr {(($n_nmos-1)*$size + 2*($guard_offset_x + $guard_width) - 5)*2 - 32}]um
 paint metal2
@@ -53,7 +53,7 @@ paint metal2
 
 #PMOS 3
 box 0um [expr {(($n_nmos-1)*$size + 2*($guard_offset_x + $guard_width) - 5)*2 + 8}]um 10um [expr {(($n_nmos-1)*$size + 2*($guard_offset_x + $guard_width) - 5)*2 + 18}]um 
-getcell mag_files/pmos_waffle_48x48
+getcell mag_files/pmos_waffle_6x6
 upsidedown
 rotate -90
 box 30um [expr {(($n_nmos-1)*$size + 2*($guard_offset_x + $guard_width) - 5)*2 + 44}]um 57.4um [expr {(($n_nmos-1)*$size + 2*($guard_offset_x + $guard_width) - 5)*2 + 60}]um
@@ -65,7 +65,7 @@ paint metal2
 
 #PMOS 4
 box 0um [expr {(($n_nmos-1)*$size + 2*($guard_offset_x + $guard_width) - 5)*2 + (($n_pmos-1)*$size + 2*($guard_offset_x + $guard_width) - 5) + 16}]um 10um [expr {(($n_nmos-1)*$size + 2*($guard_offset_x + $guard_width) - 5)*2 + (($n_pmos-1)*$size + 2*($guard_offset_x + $guard_width) - 5) + 26}]um 
-getcell mag_files/pmos_waffle_48x48
+getcell mag_files/pmos_waffle_6x6
 upsidedown
 box 30um [expr {(($n_nmos-1)*$size + 2*($guard_offset_x + $guard_width) - 5)*2 + (($n_pmos-1)*$size + 2*($guard_offset_x + $guard_width) - 5)*2 - 41.4}]um 52um [expr {(($n_nmos-1)*$size + 2*($guard_offset_x + $guard_width) - 5)*2 + (($n_pmos-1)*$size + 2*($guard_offset_x + $guard_width) - 5)*2 - 36}]um
 paint metal2

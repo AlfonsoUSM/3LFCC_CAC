@@ -10,7 +10,7 @@
 ####### NMOS #######
 
 set size 5.5
-set n 18
+set n 8
 set base 0
 set offset_lt 15.25
 set offset -1.13
@@ -39,8 +39,8 @@ set totop2_off [expr {$totop+170}]
 
 ### corners ###
 load mag_files/waffle_cells/nmos_waffle_corners.mag
-save mag_files/nmos_waffle_18x18
-load mag_files/nmos_waffle_18x18
+save mag_files/nmos_waffle_8x8
+load mag_files/nmos_waffle_8x8
 
 zoom 8
 
@@ -226,8 +226,8 @@ save
 property MASKHINTS_HVI "-140 $totop 0 $totop_off -140 -140 0 0 $totop -140 $totop_off 0 $totop $totop $totop_off $totop_off"
 property MASKHINTS_HVNTM "-1007 -1107 -21 -1079 -1007 -1079 -979 -121 $toright_hvn $totop_hvn $toright_hvn_off $totop_hvn_off $toright_hvn_bot $totop_hvn_bot $toright_hvn_off $totop_hvn -170 $totop2 -30 $totop2_off"
 save
-flatten nmos_flat_18x18
-load nmos_flat_18x18
+flatten nmos_flat_8x8
+load nmos_flat_8x8
 box [expr {-$size + 0.25}]um [expr {-$size - 0.25}]um [expr {-$size + 0.25}]um [expr {-$size - 0.25}]um
 label G
 box [expr {$size*$n + 10}]um [expr {-$size - 0.25}]um [expr {$size*$n + 10}]um [expr {-$size - 0.25}]um
@@ -236,7 +236,7 @@ box [expr {-$size - 12}]um [expr {$size*($n+1)}]um [expr {-$size - 12}]um [expr 
 label D
 box [expr {-$size -18}]um [expr {-$size - 17}]um [expr {-$size -18}]um [expr {-$size - 17}]um
 label DNW
-save mag_files/POSTLAYOUT/nmos_flat_18x18
+save mag_files/POSTLAYOUT/nmos_flat_8x8
 extract all
 ext2sim labels on
 ext2sim
