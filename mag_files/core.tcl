@@ -2,11 +2,13 @@
 # #####################	#
 #   AC3E - UTFSM      	#
 #   Project: 3LFCC    	#
-#   Core layout			#
-#   01-11-2022        	#
+#   Core layout			    #
+#   29-03-2022        	#
 # #####################	#
-set n_cell 8
-set p_cell 14
+
+tech load /content/conda-env/share/pdk/sky130A/libs.tech/magic/sky130A.tech
+set n_cell 6
+set p_cell 8
 set size 5.5
 set guard_offset_x 11.25
 set guard_width 48
@@ -178,3 +180,10 @@ label D4 west metal1
 
 
 save input_files/mag_files/core.mag
+
+extract all
+ext2spice lvs
+ext2spice 
+exit
+
+
