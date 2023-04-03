@@ -1,30 +1,30 @@
-
-**.subckt core_nofilter_constantload
+**.subckt core_nofilter
+RL net1 VSS 14.6667 m=1
 V2 VSS GND 0
 .save i(v2)
 V3 VH GND {VH}
 .save i(v3)
-I0 VOUT_CORE VSS 0.001
-XC1 V_CFTOP V_CFBOT sky130_fd_pr__cap_mim_m3_2 W=30 L=30 MF=1978 m=1978
-XC2 V_CFTOP V_CFBOT sky130_fd_pr__cap_mim_m3_1 W=30 L=30 MF=1978 m=1978
-X2v D1 D2 D3 D4 V_CFTOP V_CFBOT VOUT_CORE VH VSS power_stage
-V6 D3 VSS PULSE(0 5 520.0n 1n 1n 300.0n 1000.0n)
+V8 VDIG GND {VDIG}
+V9 VOUT_CORE net1 0
+
+X1 VDIG D2_s D1_s VH VSS VOUT_CORE D3_s D4_s V_CFTOP V_CFBOT VH_LS core
+V6 D3_s VSS PULSE(0 1.8 520.0n 1n 1n 300.0n 1000.0n)
 .save i(v6)
-V5 D2 VSS PULSE(0 5 500.0n 1n 1n 340.0n 1000.0n)
+V5 D2_s VSS PULSE(0 1.8 500.0n 1n 1n 340.0n 1000.0n)
 .save i(v5)
-V7 D4 VSS PULSE(0 5 20.0n 1n 1n 300.0n 1000.0n)
+V7 D4_s VSS PULSE(0 1.8 20.0n 1n 1n 300.0n 1000.0n)
 .save i(v7)
-V1 D1 VSS PULSE(0 5 0n 1n 1n 340.0n 1000.0n)
+V1 D1_s VSS PULSE(0 1.8 0n 1n 1n 340.0n 1000.0n)
 .save i(v1)
-C3 V_CFTOP V_CFBOT 680n m=1
+C3 V_CFTOP V_CFBOT 455n m=1
+V4 VH_LS GND {VH}
 **** begin user architecture code
-
-
+.param VDIG = 1.8
 .param VIN = 5
 .param VH = 5
 .option scale = 1e-6
-.param muln = 24
-.param mulp = 60
+.param muln = 364
+.param mulp = 1300
 *.option temp=70
 .ic v(V_CFTOP) = VH/2
 .ic v(vout_core)=3
@@ -34,32 +34,17 @@ C3 V_CFTOP V_CFBOT 680n m=1
 *.save @m.xm4.msky130_fd_pr__nfet_g5v0d10v5[vds]
 *.param mc_mm_switch=0
 
-.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice TT
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
 
 .options savecurrents
 
 
 .control
 
-save i(v3) v(vout_core)
-tran 1n 30u
-wrdata SPICE_files/core/core_nofilter_constantload.txt v(vout_core) i(v3)
+save i(v3) v(vout_core) v(v_cftop,v_cfbot) i(v9)
+tran 1n 30u 20u
+wrdata input_files/SPICE_files/core/core_nofilter.txt v(vout_core) i(v3) i(v9) v(v_cftop,v_cfbot)
 set appendwrite
-
-*Relacion Pulso P y N para acondicionar tiempos muertos (reducir peaks)
-
-
-
-
-
-
-
-**Problema actual, eficiencia no se logra calcular debido a que no transicionan bien todo los
-*+ estados, (Cuando el Flycap esta flotante no esta consumiendo energia, es decir la carga no esta conectada a
-*+ la fuente de entrada...)
-** Si bien D1- D4 y D2- D3 estan con sus respectivos tiempos muertos (reducion de peaks), falta
-*+ sincronizar bien D1 con D2 para lograr la conexion correcta para que la carga se conecte a la fuente en estado
-*+ de flycap flotante.
 
 .endc
 
@@ -67,7 +52,93 @@ set appendwrite
 **** end user architecture code
 **.ends
 
-.subckt power_stage s1 s2 s3 s4 fc1 fc2 out VP VN
+* expanding   symbol:  personal/3LFCC_AC3E/xschem/hierarchy_sch/core.sym # of pins=11
+** sym_path: /foss/designs/personal/3LFCC_AC3E/xschem/hierarchy_sch/core.sym
+** sch_path: /foss/designs/personal/3LFCC_AC3E/xschem/hierarchy_sch/core.sch
+.subckt core  VDD D2 D1 VP VN out D3 D4 fc1 fc2 VH
+*.opin out
+*.iopin VP
+*.ipin D1
+*.ipin D2
+*.ipin D3
+*.ipin D4
+*.iopin VDD
+*.iopin VN
+*.iopin VH
+*.iopin fc1
+*.iopin fc2
+X1 net4 net3 net2 net1 out VP VN fc1 fc2 converter
+x1 VH VDD net1 D4 VN level_shifter
+x2 VH VDD net2 D3 VN level_shifter
+x3 VH VDD net3 D2 VN level_shifter
+x4 VH VDD net4 D1 VN level_shifter
+.ends
+
+
+* expanding   symbol:  converter.sym # of pins=9
+** sym_path: /foss/designs/personal/3LFCC_AC3E/xschem/hierarchy_sch/converter.sym
+** sch_path: /foss/designs/personal/3LFCC_AC3E/xschem/hierarchy_sch/converter.sch
+.subckt converter  s1 s2 s3 s4 out VP VN fc1_read fc2_read
+*.ipin s1
+*.ipin s2
+*.ipin s3
+*.ipin s4
+*.iopin VP
+*.iopin VN
+*.iopin out
+*.iopin fc2_read
+*.iopin fc1_read
+X1v s1 s2 s3 s4 fc1_read fc2_read out VP VN power_stage
+
+.ends
+
+
+* expanding   symbol:  level_shifter.sym # of pins=5
+** sym_path: /foss/designs/personal/3LFCC_AC3E/xschem/hierarchy_sch/level_shifter.sym
+** sch_path: /foss/designs/personal/3LFCC_AC3E/xschem/hierarchy_sch/level_shifter.sch
+.subckt level_shifter  VH VDD OUT IN VSS
+*.ipin IN
+*.iopin VDD
+*.iopin VH
+*.opin OUT
+*.iopin VSS
+XM11 net1 IN VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=5 m=5
+XM12 net1 IN VSS VSS sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=5 m=5
+XM15 net2 net3 VH VH sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=2 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=1 m=1
+XM14 net3 net2 VH VH sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=2 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=1 m=1
+XM16 net4 net2 VH VH sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=10 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=10 m=10
+XM18 net2 net1 VSS VSS sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=4 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=3 m=3
+XM13 net3 IN VSS VSS sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=4 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=3 m=3
+XM17 net4 IN VSS VSS sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=10 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=10 m=10
+XM7 OUT net4 VH VH sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=20 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=20 m=20
+XM10 OUT net4 VSS VSS sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=20 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=20 m=20
+.ends
+
+
+* expanding   symbol:  personal/3LFCC_AC3E/xschem/hierarchy_sch/power_stage.sym # of pins=9
+** sym_path: /foss/designs/personal/3LFCC_AC3E/xschem/hierarchy_sch/power_stage.sym
+** sch_path: /foss/designs/personal/3LFCC_AC3E/xschem/hierarchy_sch/power_stage.sch
+.subckt power_stage  s1 s2 s3 s4 fc1 fc2 out VP VN
 *.iopin VP
 *.ipin s1
 *.ipin s2

@@ -9,7 +9,7 @@ VDD VDD GND 5
 
 
 .param VGS = -5
-.param mul = 264
+.param mul = 1300
 .option temp=70
 .lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
 
@@ -20,7 +20,7 @@ alterparam VGS=$volt
 reset
 save i(VDS)
 dc VDS -3 0 0.0001
-wrdata SPICE_files/PMOS/PRELAYOUT/PMOS_R_on_calc_PRELAYOUT.txt i(VDS)
+wrdata input_files/SPICE_files/PMOS/PRELAYOUT/PMOS_R_on_calc_PRELAYOUT.txt i(VDS)
 set appendwrite
 end
 
