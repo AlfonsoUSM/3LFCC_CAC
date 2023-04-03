@@ -1,7 +1,7 @@
 **.subckt postlayout_cap
-.include nmos_flat_36x36.spice
-XU1 G VSS VP2 DNW VSUBS nmos_flat_36x36
-VG VP GND PULSE(0 {VGS} 1n 0 0 3.5n 4.5n)
+.include nmos_flat_14x14.spice
+XU1 G VSS VP2 DNW VSUBS nmos_flat_14x14
+VG VP GND PULSE(0 {VGS} 100p 0 0 508p 608p)
 .save i(vg)
 VSS VSS GND 0
 .save i(vss)
@@ -24,7 +24,7 @@ foreach volt $&voltage
 alterparam VGS=$volt
 reset
 save v(G)
-tran 1p 4.5n
+tran 1p 608p
 wrdata input_files/SPICE_files/NMOS/POSTLAYOUT_CAP/NMOS_cap_calc_POSTLAYOUT.txt v(G)
 set appendwrite
 end

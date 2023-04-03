@@ -1,9 +1,9 @@
 * NGSPICE file - technology: sky130A
 
 **.subckt postlayout_sim
-.include pmos_flat_48x48.spice
+.include pmos_flat_26x26.spice
 
-XU1 G S D PW pmos_flat_48x48
+XU1 G S D PW pmos_flat_26x26
 
 VGS G S {VGS}
 VDD S GND 5

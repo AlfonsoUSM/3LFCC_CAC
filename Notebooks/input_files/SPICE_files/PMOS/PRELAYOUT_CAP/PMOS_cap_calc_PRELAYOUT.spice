@@ -1,5 +1,5 @@
 **.subckt prelayout_cap_pmos
-VG VP GND PULSE(0 {VGS} 1n 0 0 6.3n 7.3n)
+VG VP GND PULSE(0 {VGS} 1n 0 0 1.8n 2.8n)
 .save i(vg)
 VSS VSS GND 0
 .save i(vss)
@@ -8,7 +8,7 @@ VG1 VP2 GND {VGS}
 .save i(vg1)
 XM1 VSS G VP2 VP2 sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=4.38 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
 + pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
-+ sa=0 sb=0 sd=0 mult=4512 m=4512
++ sa=0 sb=0 sd=0 mult=1300 m=1300
 **** begin user architecture code
 
 
@@ -22,7 +22,7 @@ foreach volt $&voltage
 alterparam VGS=$volt
 reset
 save v(G)
-tran 7p 7.3n
+tran 7p 2.8n
 wrdata input_files/SPICE_files/PMOS/PRELAYOUT_CAP/PMOS_cap_calc_PRELAYOUT.txt v(G)
 set appendwrite
 end

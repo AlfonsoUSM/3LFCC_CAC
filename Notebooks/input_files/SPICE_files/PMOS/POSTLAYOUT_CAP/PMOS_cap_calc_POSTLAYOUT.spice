@@ -1,6 +1,6 @@
 **.subckt postlayout_cap_pmos
-.include pmos_flat_48x48.spice
-VG VP GND PULSE(0 {VGS} 1n 0 0 6.3n 7.3n)
+.include pmos_flat_26x26.spice
+VG VP GND PULSE(0 {VGS} 1n 0 0 1.8n 2.8n)
 .save i(vg)
 VSS VSS GND 0
 .save i(vss)
@@ -8,7 +8,7 @@ R1 G VP 100 m=1
 VG1 VP2 GND {VGS}
 .save i(vg1)
 VX PW GND 0
-XU1 G VP2 VSS PW pmos_flat_48x48
+XU1 G VP2 VSS PW pmos_flat_26x26
 **** begin user architecture code
 
 
@@ -22,7 +22,7 @@ foreach volt $&voltage
 alterparam VGS=$volt
 reset
 save v(G)
-tran 7p 7.3n
+tran 7p 2.8n
 wrdata input_files/SPICE_files/PMOS/POSTLAYOUT_CAP/PMOS_cap_calc_POSTLAYOUT.txt v(G)
 set appendwrite
 end

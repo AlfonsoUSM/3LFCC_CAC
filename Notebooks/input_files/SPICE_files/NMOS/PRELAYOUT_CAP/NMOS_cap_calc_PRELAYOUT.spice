@@ -1,8 +1,8 @@
 **.subckt prelayout_cap
 XM1 VP2 G VSS VSS sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=4.38 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
 + pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
-+ sa=0 sb=0 sd=0 mult=2520 m=2520
-VG VP GND PULSE(0 {VGS} 1n 0 0 3.5n 4.5n)
++ sa=0 sb=0 sd=0 mult=364 m=364
+VG VP GND PULSE(0 {VGS} 100p 0 0 508p 608p)
 .save i(vg)
 VSS VSS GND 0
 .save i(vss)
@@ -23,7 +23,7 @@ foreach volt $&voltage
 alterparam VGS=$volt
 reset
 save v(G)
-tran 1p 4.5n
+tran 1p 608p
 wrdata input_files/SPICE_files/NMOS/PRELAYOUT_CAP/NMOS_cap_calc_PRELAYOUT.txt v(G)
 set appendwrite
 end
