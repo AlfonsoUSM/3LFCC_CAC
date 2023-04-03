@@ -1,0 +1,43 @@
+**.subckt postlayout_cap
+.include nmos_flat_36x36.spice
+XU1 G VSS VP2 DNW VSUBS nmos_flat_36x36
+VG VP GND PULSE(0 {VGS} 1n 0 0 3.5n 4.5n)
+.save i(vg)
+VSS VSS GND 0
+.save i(vss)
+R1 G VP 100 m=1
+VG1 VP2 GND {VGS}
+.save i(vg1)
+VX VSUBS GND 0
+VY DNW D 0
+**** begin user architecture code
+
+
+
+.param VGS = 5
+.option temp=70
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+.control
+compose voltage values (2.5) 5
+foreach volt $&voltage
+alterparam VGS=$volt
+reset
+save v(G)
+tran 1p 4.5n
+wrdata input_files/SPICE_files/NMOS/POSTLAYOUT_CAP/NMOS_cap_calc_POSTLAYOUT.txt v(G)
+set appendwrite
+end
+
+.endc
+
+
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end
+.control
+quit
+.endc
