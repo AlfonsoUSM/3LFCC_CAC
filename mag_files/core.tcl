@@ -2,11 +2,11 @@
 # #####################	#
 #   AC3E - UTFSM      	#
 #   Project: 3LFCC    	#
-#   Core layout			    #
-#   29-03-2022        	#
+#   Core layout			#
+#   01-11-2022        	#
 # #####################	#
 
-tech load /content/conda-env/share/pdk/sky130A/libs.tech/magic/sky130A.tech
+tech load /foss/pdks/sky130A/libs.tech/magic/sky130A.tech
 set n_cell 6
 set p_cell 8
 set size 5.5
@@ -44,29 +44,36 @@ drc style drc(full)
 # Converter
 box 0um 0 10um 10um
 getcell input_files/mag_files/power_stage.mag
+clockwise 90
 
 # VH
 box 10um [expr {$yoff}]um [expr {$LS1 + 80}]um [expr {$yoff + 3}]um
 paint metal1
-box 1370um [expr {$yoff}]um [expr {$LS1 + 80}]um [expr {$yoff + 3}]um
+box [expr {$LS1 +14}]um [expr {$yoff}]um [expr {$LS1 + 80}]um [expr {$yoff + 3}]um
 label VLS east metal1
 
 # VDD
 box 10um [expr {$yoff + 3.5}]um [expr {$LS1 + 80}]um [expr {$yoff + 6}]um
 paint metal1
-box 1370um [expr {$yoff + 3.5}]um [expr {$LS1 + 80}]um [expr {$yoff + 6}]um
+box [expr {$LS1 +14}]um [expr {$yoff + 3.5}]um [expr {$LS1 + 80}]um [expr {$yoff + 6}]um
 label VDD west metal1
+box [expr {$LS1 + 50}]um [expr {$ypos + 0.99}]um [expr {$LS1 + 55}]um [expr {$yoff + 6}]um
+paint metal2
+box [expr {$LS1 + 50.05}]um [expr {$ypos + 1.04}]um [expr {$LS1 + 54.95}]um [expr {$ypos + 5.94}]um
+paint m3contact
+box [expr {$LS1 + 50}]um [expr {$ypos - 64.01}]um [expr {$LS1 + 55}]um [expr {$ypos + 5.99}]um
+paint metal3
 
 # GND
 box 10um [expr {$yoff + 12.5}]um [expr {$LS1 + 80}]um [expr {$yoff + 15.5}]um
 paint {metal1 metal2}
-box 10.05um [expr {$yoff + 12.55}]um 1371.95um [expr {$yoff + 15.45}]um
+box 10.05um [expr {$yoff + 12.55}]um [expr {$LS1 +15.95}]um [expr {$yoff + 15.45}]um
 paint m2contact
-box 25um 375um 30um [expr {$yoff + 15.5}]um
+box 25um [expr {$ypos + 0.99}]um 30um [expr {$yoff + 15.5}]um
 paint metal2
-box 25.05um 375.05um 29.95um 379.95um
+box 25.05um [expr {$ypos + 1.04}]um 29.95um [expr {$ypos + 5.94}]um
 paint m3contact
-box 25um 310um 30um 380um
+box 25um [expr {$ypos - 64.01}]um 30um [expr {$ypos + 5.99}]um
 paint metal3
 
 
@@ -74,9 +81,9 @@ paint metal3
 box [expr {$LS1}]um [expr {$ypos}]um [expr {$LS1}]um [expr {$ypos}]um
 getcell input_files/mag_files/level_shifter.mag
 rotate 90
-box [expr {$LS1 + 20.47}]um [expr {$ypos - 37}]um [expr {$LS1 + 23.47}]um [expr {$ypos + 0.5}]um
+box [expr {$LS1 + 20.47}]um [expr {$ypos - 34}]um [expr {$LS1 + 23.47}]um [expr {$ypos + 0.5}]um
 paint {metal2 metal3 metal4 metal5}
-box [expr {$LS1 + 20.62}]um [expr {$ypos - 36.85}]um [expr {$LS1 + 23.32}]um [expr {$ypos - 30.15}]um
+box [expr {$LS1 + 20.62}]um [expr {$ypos - 33.85}]um [expr {$LS1 + 23.32}]um [expr {$ypos - 30.15}]um
 paint {m3contact via3 via4}
 box [expr {$LS1 + 20.3}]um [expr {$ypos + 24}]um [expr {$LS1 + 21.3}]um [expr {$yoff + 15.5}]um
 paint metal2
@@ -101,9 +108,9 @@ label D1 west metal1
 box [expr {$LS2}]um [expr {$ypos}]um [expr {$LS2}]um [expr {$ypos}]um
 getcell input_files/mag_files/level_shifter.mag
 rotate 90
-box [expr {$LS2 + 20.47}]um [expr {$ypos - 37}]um [expr {$LS2 + 23.47}]um [expr {$ypos + 0.5}]um
+box [expr {$LS2 + 20.47}]um [expr {$ypos - 34}]um [expr {$LS2 + 23.47}]um [expr {$ypos + 0.5}]um
 paint {metal2 metal3 metal4 metal5}
-box [expr {$LS2 + 20.62}]um [expr {$ypos - 36.85}]um [expr {$LS2 + 23.32}]um [expr {$ypos - 30.15}]um
+box [expr {$LS2 + 20.62}]um [expr {$ypos - 33.85}]um [expr {$LS2 + 23.32}]um [expr {$ypos - 30.15}]um
 paint {m3contact via3 via4}
 box [expr {$LS2 + 20.3}]um [expr {$ypos + 24}]um [expr {$LS2 + 21.3}]um [expr {$yoff + 15.5}]um
 paint metal2
@@ -128,9 +135,9 @@ label D2 west metal1
 box [expr {$LS3}]um [expr {$ypos}]um [expr {$LS3}]um [expr {$ypos}]um
 getcell input_files/mag_files/level_shifter.mag
 rotate 90
-box [expr {$LS3 + 20.47}]um [expr {$ypos - 37}]um [expr {$LS3 + 23.47}]um [expr {$ypos + 0.5}]um
+box [expr {$LS3 + 20.47}]um [expr {$ypos - 34}]um [expr {$LS3 + 23.47}]um [expr {$ypos + 0.5}]um
 paint {metal2 metal3 metal4 metal5}
-box [expr {$LS3 + 20.62}]um [expr {$ypos - 36.85}]um [expr {$LS3 + 23.32}]um [expr {$ypos - 30.15}]um
+box [expr {$LS3 + 20.62}]um [expr {$ypos - 33.85}]um [expr {$LS3 + 23.32}]um [expr {$ypos - 30.15}]um
 paint {m3contact via3 via4}
 box [expr {$LS3 + 20.3}]um [expr {$ypos + 24}]um [expr {$LS3 + 21.3}]um [expr {$yoff + 15.5}]um
 paint metal2
@@ -155,9 +162,9 @@ label D3 west metal1
 box [expr {$LS4}]um [expr {$ypos}]um [expr {$LS4}]um [expr {$ypos}]um
 getcell input_files/mag_files/level_shifter.mag
 rotate 90
-box [expr {$LS4 + 20.47}]um [expr {$ypos - 37}]um [expr {$LS4 + 23.47}]um [expr {$ypos + 0.5}]um
+box [expr {$LS4 + 20.47}]um [expr {$ypos - 34}]um [expr {$LS4 + 23.47}]um [expr {$ypos + 0.5}]um
 paint {metal2 metal3 metal4 metal5}
-box [expr {$LS4 + 20.62}]um [expr {$ypos - 36.85}]um [expr {$LS4 + 23.32}]um [expr {$ypos - 30.15}]um
+box [expr {$LS4 + 20.62}]um [expr {$ypos - 33.85}]um [expr {$LS4 + 23.32}]um [expr {$ypos - 30.15}]um
 paint {m3contact via3 via4}
 box [expr {$LS4 + 20.3}]um [expr {$ypos + 24}]um [expr {$LS4 + 21.3}]um [expr {$yoff + 15.5}]um
 paint metal2
@@ -183,7 +190,5 @@ save input_files/mag_files/core.mag
 
 extract all
 ext2spice lvs
-ext2spice 
+ext2spice
 exit
-
-

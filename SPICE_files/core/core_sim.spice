@@ -1,11 +1,11 @@
 **.subckt core_nofilter
-RL net1 VSS 14.6667 m=1
+I0 VOUT_CORE VSS 0.005
 V2 VSS GND 0
 .save i(v2)
 V3 VH GND {VH}
 .save i(v3)
 V8 VDIG GND {VDIG}
-V9 VOUT_CORE net1 0
+
 
 X1 VDIG D2_s D1_s VH VSS VOUT_CORE D3_s D4_s V_CFTOP V_CFBOT VH_LS core
 V6 D3_s VSS PULSE(0 1.8 520.0n 1n 1n 300.0n 1000.0n)
@@ -16,15 +16,15 @@ V7 D4_s VSS PULSE(0 1.8 20.0n 1n 1n 300.0n 1000.0n)
 .save i(v7)
 V1 D1_s VSS PULSE(0 1.8 0n 1n 1n 340.0n 1000.0n)
 .save i(v1)
-C3 V_CFTOP V_CFBOT 455n m=1
+C3 V_CFTOP V_CFBOT 23n m=1
 V4 VH_LS GND {VH}
 **** begin user architecture code
 .param VDIG = 1.8
 .param VIN = 5
 .param VH = 5
 .option scale = 1e-6
-.param muln = 364
-.param mulp = 1300
+.param muln = 60
+.param mulp = 112
 *.option temp=70
 .ic v(V_CFTOP) = VH/2
 .ic v(vout_core)=3
@@ -43,7 +43,7 @@ V4 VH_LS GND {VH}
 
 save i(v3) v(vout_core) v(v_cftop,v_cfbot) i(v9)
 tran 1n 30u 20u
-wrdata input_files/SPICE_files/core/core_nofilter.txt v(vout_core) i(v3) i(v9) v(v_cftop,v_cfbot)
+wrdata input_files/SPICE_files/core/core_nofilter.txt v(vout_core) i(v3) v(v_cftop,v_cfbot)
 set appendwrite
 
 .endc
