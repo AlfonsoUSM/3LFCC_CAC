@@ -1,9 +1,0 @@
-* NGSPICE file created from power_stage_flat.ext - technology: sky130A
-
-.subckt power_stage_flat s1 s2 s3 s4 fc1 fc2 out VP VN
-X0 VP s1 fc1 VP sky130_fd_pr__pfet_g5v0d10v5 ad=1.56918e+16p pd=3.81907e+10u as=2.19624e+16p ps=8.06862e+10u w=4.38e+06u l=500000u M=4512
-X1 fc2 s4 VN VN sky130_fd_pr__nfet_g5v0d10v5 ad=1.23038e+16p pd=4.52046e+10u as=8.80377e+15p ps=2.14718e+10u w=4.38e+06u l=500000u M=2520
-X2 fc1 s2 out fc1 sky130_fd_pr__pfet_g5v0d10v5 ad=0p pd=0u as=6.27058e+15p ps=4.24955e+10u w=4.38e+06u l=500000u M=4512
-X3 fc2 s3 out fc2 sky130_fd_pr__nfet_g5v0d10v5 ad=0p pd=0u as=3.50005e+15p ps=2.37328e+10u w=4.38e+06u l=500000u M=2520
-.ends
-
