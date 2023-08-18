@@ -1,11 +1,11 @@
 # 3LFCC
 
-[![https://github.com/AlfonsoUSM/3LFCC_CAC/blob/dev/Notebooks/3LFCC_v2p0.ipynb](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/AlfonsoUSM/3LFCC_CAC/blob/dev/Notebooks/3LFCC_v2p0.ipynb)
+[![https://github.com/AlfonsoUSM/3LFCC_CAC/blob/dev/Notebooks/3LFCC_v2p0.ipynb](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/AlfonsoUSM/3LFCC_CAC/blob/dev/Notebooks/3LFCC_v2p0.ipynb)
 
 Automated generation of 3 Level Flying Capacitor Converter in the SKY130 technology.
 
 ## Usage
-This tool is executed inside a jupyter notebook that can be runned inside a local instance or in the cloud via [Google Colab]().
+This tool is executed inside a jupyter notebook that can be runned inside a local instance or in the cloud via [Google Colab](https://colab.research.google.com/github/AlfonsoUSM/3LFCC_CAC/blob/dev/Notebooks/3LFCC_v2p0.ipynb).
 
 A local jupyter notebook can be created using docker:
 ```
