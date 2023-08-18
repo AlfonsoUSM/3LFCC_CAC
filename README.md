@@ -1,6 +1,6 @@
 # 3LFCC
 
-[![https://github.com/AlfonsoUSM/3LFCC_CAC/blob/dev/Notebooks/3LFCC_v2p0.ipynb](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mario1159/sscs-ose-chipathon.github.io/blob/main/initial_notebooks_2023/submitted_notebooks/labbench-on-chip-sar-adc/SAR_ADC_proposal.ipynb)
+[![https://github.com/AlfonsoUSM/3LFCC_CAC/blob/dev/Notebooks/3LFCC_v2p0.ipynb](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/AlfonsoUSM/3LFCC_CAC/blob/dev/Notebooks/3LFCC_v2p0.ipynb)
 
 Automated generation of 3 Level Flying Capacitor Converter in the SKY130 technology.
 
