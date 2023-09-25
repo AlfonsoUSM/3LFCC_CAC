@@ -9,7 +9,7 @@ This tool is executed inside a jupyter notebook that can be runned inside a loca
 
 A local jupyter notebook can be created using docker:
 ```
-docker run -it --name jupyter-notebook -p 8888:8888 jupyter/minimal-notebook
+docker run -it --name jupyter-notebook -p 8888:8888 --user root -e GRANT_SUDO=yes jupyter/minimal-notebook
 ```
 Then the notebook can be accessed at `http://localhost:8888/?token=<token>`.
 
